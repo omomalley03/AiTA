@@ -1,0 +1,77 @@
+{
+  "main_topics": [
+    "Discrete and Categorical Distributions",
+    "Multinomial Distribution",
+    "Dirichlet Distribution",
+    "Symmetric Dirichlet Distribution"
+  ],
+  "what_you_will_learn": [
+    "How to generalize binary random variables to multiple discrete outcomes",
+    "The mathematical formulation of the multinomial distribution",
+    "How the categorical distribution relates to the Bernoulli distribution",
+    "The Dirichlet distribution as a prior over probability vectors",
+    "Properties of the symmetric Dirichlet distribution and its concentration parameter"
+  ],
+  "key_definitions": [
+    {
+      "term": "Multinomial Distribution",
+      "definition": "A generalization of the binomial distribution from 2 outcomes to m outcomes, giving the probability of observing a vector of counts k = [k₁, ..., kₘ] given probability parameters π = [π₁, ..., πₘ]"
+    },
+    {
+      "term": "Categorical Distribution",
+      "definition": "The generalization of the Bernoulli distribution to m outcomes; the special case of the multinomial with one trial, where p(X = xᵢ | π) = πᵢ"
+    },
+    {
+      "term": "Dirichlet Distribution",
+      "definition": "A continuous probability distribution over the (m-1)-dimensional simplex, serving as a conjugate prior for the categorical/multinomial distribution, parameterized by shape parameters α = [α₁, ..., αₘ]"
+    },
+    {
+      "term": "Simplex",
+      "definition": "The geometric space where probability vectors π live, satisfying Σπᵢ = 1 and πᵢ ∈ (0,1) for all i"
+    },
+    {
+      "term": "Symmetric Dirichlet Distribution",
+      "definition": "A special case of the Dirichlet distribution where all shape parameters are identical: αᵢ = α for all i"
+    }
+  ],
+  "prereq_refreshers": [
+    {
+      "concept": "Bernoulli Distribution",
+      "brief_explanation": "A distribution over binary outcomes (0 or 1) with parameter p representing the probability of success"
+    },
+    {
+      "concept": "Binomial Distribution",
+      "brief_explanation": "The distribution of the number of successes in n independent Bernoulli trials"
+    },
+    {
+      "concept": "Beta Distribution",
+      "brief_explanation": "A continuous distribution on [0,1] that serves as a conjugate prior for the Bernoulli/binomial distributions"
+    },
+    {
+      "concept": "Gamma Function",
+      "brief_explanation": "Γ(n) = (n-1)! for positive integers; extends the factorial to continuous values"
+    }
+  ],
+  "questions_to_keep_in_mind": [
+    "How does the multinomial distribution generalize the binomial distribution?",
+    "Why do we only need m-1 parameters to describe m outcomes?",
+    "What role does the Dirichlet distribution play as a prior in Bayesian inference?",
+    "How does the concentration parameter α affect the shape of the Dirichlet distribution?",
+    "What are practical applications of these distributions (e.g., text modeling)?"
+  ],
+  "warmup_check_questions": [
+    {
+      "question": "If you flip a biased coin 10 times, what distribution describes the number of heads?",
+      "answer": "The binomial distribution"
+    },
+    {
+      "question": "What constraint must the probabilities πᵢ satisfy in a categorical distribution?",
+      "answer": "They must sum to 1: Σπᵢ = 1"
+    },
+    {
+      "question": "What is the relationship between the Beta distribution and the Bernoulli distribution?",
+      "answer": "The Beta distribution is the conjugate prior for the Bernoulli distribution"
+    }
+  ],
+  "human_readable_summary": "# Lecture Preview: Discrete Categorical Distribution\n**Lecturer:** Carl Edward Rasmussen | **Date:** November 11th, 2016\n\n⸻\n\n## Big Picture Motivation\n\nThis lecture extends our understanding from **binary random variables** to **multiple discrete outcomes**. Just as we moved from single coin flips (Bernoulli) to counting heads in multiple flips (Binomial), we now generalize to scenarios with more than two possible outcomes—like rolling a die or counting word frequencies in text.\n\n⸻\n\n## Part 1: The Multinomial Distribution\n\n### Intuition\nImagine rolling a fair die n = 60 times and recording how often each face appears. The multinomial distribution tells us the probability of observing any particular combination of counts.\n\n### Mathematical Formulation\nFor a discrete random variable X that can take one of m values x₁, ..., xₘ:\n- Let kᵢ = number of times X = xᵢ was observed in n trials\n- Let πᵢ = P(X = xᵢ) be the probability of outcome i\n\n**Constraints:**\n- Σᵢ₌₁ᵐ kᵢ = n (counts must sum to total trials)\n- Σᵢ₌₁ᵐ πᵢ = 1 (probabilities must sum to 1)\n\n**The Multinomial Distribution:**\n$$p(k | \\pi, n) = \\frac{n!}{k_1! k_2! \\cdots k_m!} \\prod_{i=1}^{m} \\pi_i^{k_i}$$\n\n**Key observations:**\n- The multinomial coefficient n!/(k₁!k₂!...kₘ!) generalizes the binomial coefficient C(n,k)\n- We can write p(k | π) since n is redundant (determined by the kᵢ values)\n\n### The Categorical Distribution\nThe **categorical distribution** is the single-trial special case:\n$$p(X = x_i | \\pi) = \\pi_i$$\n\nThis is the generalization of the Bernoulli distribution from 2 outcomes to m outcomes.\n\n⸻\n\n## Part 2: The Dirichlet Distribution\n\n### Why Do We Need It?\nJust as the Beta distribution provides a prior over the parameter p of a Bernoulli/Binomial, the **Dirichlet distribution** provides a prior over the probability vector π of a categorical/multinomial.\n\n### Geometric Intuition\nThe probability vector π = [π₁, ..., πₘ] lives on the **(m-1)-dimensional simplex**—the space of all valid probability distributions over m outcomes. For m = 3, this is a triangle; for m = 4, a tetrahedron.\n\n### Mathematical Formulation\n$$\\text{Dir}(\\pi | \\alpha_1, ..., \\alpha_m) = \\frac{\\Gamma(\\sum_{i=1}^{m} \\alpha_i)}{\\prod_{i=1}^{m} \\Gamma(\\alpha_i)} \\prod_{i=1}^{m} \\pi_i^{\\alpha_i - 1} = \\frac{1}{B(\\alpha)} \\prod_{i=1}^{m} \\pi_i^{\\alpha_i - 1}$$\n\n**Where:**\n- α = [α₁, ..., αₘ] are the **shape parameters**\n- B(α) is the **multivariate beta function** (normalization constant)\n- E(πⱼ) = αⱼ / Σᵢαᵢ is the mean of the j-th component\n\n⸻\n\n## Part 3: The Symmetric Dirichlet Distribution\n\n### Definition\nWhen all shape parameters are equal (αᵢ = α for all i), we get the **symmetric Dirichlet distribution**.\n\n### The Concentration Parameter α\nThe single parameter α controls the \"concentration\" of probability mass:\n\n| α value | Behavior |\n|---------|----------|\n| α < 1 (e.g., 0.1) | Sparse distributions—probability concentrated on few outcomes |\n| α = 1 | Uniform distribution over the simplex |\n| α > 1 (e.g., 10) | Concentrated near uniform—all πᵢ ≈ 1/m |\n\n### Sampling Code (MATLAB)\n```matlab\nw = randg(alpha, D, 1);\nbar(w / sum(w));\n```\n\n⸻\n\n## Application Example: Word Counts in Text\n\nA practical application is the **bag-of-words model** for text documents:\n- Each document is represented by word frequency counts\n- The multinomial distribution models the probability of observing a particular word count vector\n- The Dirichlet distribution can serve as a prior over topic-word distributions\n\nThis forms the foundation for models like **Latent Dirichlet Allocation (LDA)** for topic modeling.\n\n⸻\n\n## Summary of Key Relationships\n\n| Binary Case | Multi-outcome Generalization |\n|-------------|-----------------------------|\n| Bernoulli | Categorical |\n| Binomial | Multinomial |\n| Beta | Dirichlet |\n\nThe Dirichlet is a \"probability distribution over probability distributions\"—it tells us how likely different probability vectors π are before we observe any data."
+}
